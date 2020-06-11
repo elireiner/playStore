@@ -16,7 +16,18 @@ describe('GET / apps', () => {
    it('returns an array with at east a length of 1 when using queries', () => {
         return supertest(app)
             .get('/apps')
-            .query({ sort: 'App' }, { sort: 'Rating' })
+            .query({ sort: 'App' })
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .then(res => {
+                expect(res.body).to.be.an('array')
+                expect(res.body).to.have.lengthOf.at.least(1);
+            })
+    })
+    it('returns an array with at east a length of 1 when using queries', () => {
+        return supertest(app)
+            .get('/apps')
+            .query({ sort: 'Rating' })
             .expect(200)
             .expect('Content-Type', /json/)
             .then(res => {
